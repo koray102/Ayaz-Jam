@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 
 public class menuscript : MonoBehaviour
 {
@@ -13,5 +14,10 @@ public class menuscript : MonoBehaviour
     public void ExitGame()
     {
         Application.Quit();
+    }
+
+    public void SetVolume(float volume)
+    {
+        Debug.Log(volume);
     }
 }
