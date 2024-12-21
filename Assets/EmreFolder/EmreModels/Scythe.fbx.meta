@@ -3,7 +3,22 @@ guid: fa3b10d04146c954dbd090d40f7b539b
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Blade
+    second: {fileID: 2100000, guid: ed6a487eb0c53f847a4c6315e6e786c4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Grip
+    second: {fileID: 2100000, guid: e91b14a364f69a34cac1a1be2be2fc73, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Grip2
+    second: {fileID: 2100000, guid: 9ee6e84525f1b3540afe1534b5236999, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
