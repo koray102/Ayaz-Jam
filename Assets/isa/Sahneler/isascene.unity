@@ -6164,6 +6164,10 @@ PrefabInstance:
       propertyPath: UIManagerSc
       value: 
       objectReference: {fileID: 475626347}
+    - target: {fileID: 1500453061, guid: 1a9036559d5428b4db1772b2969e1b22, type: 3}
+      propertyPath: maxComboLevel
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 7899392678022400368, guid: 1a9036559d5428b4db1772b2969e1b22,
         type: 3}
       propertyPath: m_RootOrder
