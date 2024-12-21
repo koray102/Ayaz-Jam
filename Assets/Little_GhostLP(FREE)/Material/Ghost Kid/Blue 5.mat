@@ -113,7 +113,7 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
-    - _Cutoff_Height: 0.92
+    - _Cutoff_Height: 0.1
     - _Depth_Sensitivity: 0.41
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
