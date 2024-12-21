@@ -105,7 +105,8 @@ Material:
     - Toon_Ramp_Offset: 0.5
     - Toon_Ramp_Smoothness: 0
     - _AlphaClip: 0
-    - _Ambient: 0
+    - _Alpha_Threshold: 0.5
+    - _Ambient: 1
     - _Blend: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0

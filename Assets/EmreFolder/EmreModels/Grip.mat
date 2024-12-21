@@ -106,7 +106,7 @@ Material:
     - Toon_Ramp_Smoothness: 0
     - _AlphaClip: 0
     - _Alpha_Threshold: 0.5
-    - _Ambient: 0
+    - _Ambient: 1
     - _Blend: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
@@ -140,7 +140,7 @@ Material:
     m_Colors:
     - Toon_Ramp_Tint: {r: 0.49056596, g: 0.49056596, b: 0.49056596, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 0.5, g: 0, b: 0.04735279, a: 1}
+    - _Color: {r: 0.21698111, g: 0, b: 0.02034198, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
