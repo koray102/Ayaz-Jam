@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class PlayerMovementPhysics : MonoBehaviour
@@ -22,6 +23,7 @@ public class PlayerMovementPhysics : MonoBehaviour
     public float radiusOfSphere = 0.3f;
     public LayerMask groundMask;
 
+
     [Header("Grab")]
     [SerializeField] private float maxGrabDistance = 10;
     [SerializeField] private LayerMask ignoreRaycast;
@@ -29,7 +31,11 @@ public class PlayerMovementPhysics : MonoBehaviour
     [SerializeField] private float damperStiffness;
     [SerializeField] private float duration;
     [SerializeField] private GameObject hand;
+    [SerializeField] private Transform handStartPos;
     private Coroutine grabCoroutine;
+    private Coroutine throwHandCoroutine;
+    private Coroutine pullHandCoroutine;
+    private quaternion handStartRot;
     private LineRenderer lineRenderer;
 
     private float restLength;
@@ -52,12 +58,11 @@ public class PlayerMovementPhysics : MonoBehaviour
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
-        
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
 
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.positionCount = 2; // A line needs two points
+
+        handStartRot = hand.transform.localRotation;
     }
 
 
@@ -86,17 +91,9 @@ public class PlayerMovementPhysics : MonoBehaviour
         }
 
         
-        if(isGrabbing && grapInput)
+        if(grapInput) // Grab acikken kappatmak icin
         {
-            StopCoroutine(grabCoroutine);
-
-            grabbedObject = null;
-            grabbedRb = null;
-            grabLastPosition = Vector3.zero;
-            lastLength = 0;
-
-            isGrabbing = false;
-            grapInput = false;
+            ReleaseGrab();
         }
 
         if(!isGrabbing && grapInput && Physics.Raycast(cam.transform.position, cam.transform.forward, out RaycastHit hit, maxGrabDistance, ~ignoreRaycast))
@@ -104,13 +101,23 @@ public class PlayerMovementPhysics : MonoBehaviour
             grabbedObject = hit.transform.gameObject;
             grabbedRb = grabbedObject.GetComponent<Rigidbody>();
 
-            Debug.Log(grabbedObject.name + " " + grabbedObject.layer);
+            if(grabbedObject.CompareTag("Enemy"))
+            {
+                grabbedObject.GetComponent<Enemy>().isGrabbed = true;
+            }
 
             isGrabbing = true;
             restLength = hit.distance;
             grabPoint = hit.point;
             
             grabCoroutine = StartCoroutine(PullGrab(restLength, 1));
+
+            if(pullHandCoroutine != null)
+            {
+                StopCoroutine(pullHandCoroutine);
+            }
+
+            throwHandCoroutine = StartCoroutine(ThrowHand(grabPoint));
         }
 
 
@@ -120,6 +127,7 @@ public class PlayerMovementPhysics : MonoBehaviour
             DrawRayLine();
         }else
         {
+            hand.transform.localRotation = handStartRot;
             lineRenderer.enabled = false;
         }
     }
@@ -279,6 +287,35 @@ public class PlayerMovementPhysics : MonoBehaviour
     }
 
 
+    internal void ReleaseGrab()
+    {
+        if(isGrabbing)
+        {
+            if(grabbedObject.CompareTag("Enemy"))
+            {
+                grabbedObject.GetComponent<Enemy>().isGrabbed = false;
+            }
+
+            if(throwHandCoroutine != null)
+            {
+                StopCoroutine(throwHandCoroutine);
+            }
+
+            pullHandCoroutine = StartCoroutine(PullHand(Vector3.zero));
+
+            StopCoroutine(grabCoroutine);
+
+            grabbedObject = null;
+            grabbedRb = null;
+            grabLastPosition = Vector3.zero;
+            lastLength = 0;
+
+            isGrabbing = false;
+            grapInput = false;
+        }
+    }
+
+
     private IEnumerator PullGrab(float currentRestLength, float targetLength)
     {
         float elapsedTime = 0f;
@@ -296,6 +333,48 @@ public class PlayerMovementPhysics : MonoBehaviour
         }
 
         restLength = targetLength;
+    }
+
+
+    private IEnumerator ThrowHand(Vector3 targetPos)
+    {
+        hand.transform.SetParent(grabbedObject.transform);
+        targetPos = grabbedObject.transform.InverseTransformPoint(targetPos);
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+
+            float t = elapsedTime / duration; // Zamana bağlı bir interpolasyon faktörü
+            Vector3 newPosition;
+            newPosition = Vector3.Lerp(hand.transform.localPosition, targetPos, t);
+            hand.transform.localPosition = newPosition;
+
+            yield return null; // Bir sonraki kareyi bekle
+        }
+
+        hand.transform.localPosition = targetPos;
+    }
+
+    private IEnumerator PullHand(Vector3 targetPos)
+    {
+        hand.transform.SetParent(handStartPos);
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+
+            float t = elapsedTime / duration; // Zamana bağlı bir interpolasyon faktörü
+            Vector3 newPosition;
+            newPosition = Vector3.Lerp(hand.transform.position, targetPos, t); // local alirsan duzgun oluyo
+            hand.transform.localPosition = newPosition;
+
+            yield return null; // Bir sonraki kareyi bekle
+        }
+
+        hand.transform.localPosition = targetPos;
     }
 
 
@@ -335,7 +414,7 @@ public class PlayerMovementPhysics : MonoBehaviour
     private void DrawRayLine()
     {
         // Define the start and end points of the line
-        Vector3 startPoint = hand.transform.position;
+        Vector3 startPoint = handStartPos.position;
         Vector3 endPoint = grabPoint;
 
         // Update the LineRenderer positions
