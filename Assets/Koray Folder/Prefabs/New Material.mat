@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: New Material
-  m_Shader: {fileID: -6465566751694194690, guid: afeb296a2a7bf204c9c922418b49c4d4,
+  m_Shader: {fileID: -6465566751694194690, guid: 80f6627b71a2cc645b59a5d227c0d6c3,
     type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -35,7 +35,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 94913b13d1da1934b8fd1a0de5b3b91b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Mask_R_Emission:
@@ -113,7 +113,8 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
-    - _Depth_Sensitivity: 0.14
+    - _Cutoff_Height: -0.86
+    - _Depth_Sensitivity: 0.33
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -121,8 +122,11 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _Glow_Thickness: 0.08
     - _Metallic: 0
-    - _Normals_Sensitivity: 1
+    - _Noise_Scale: 100
+    - _Noise_Strenght: 0.58
+    - _Normals_Sensitivity: 0.45
     - _OcclusionStrength: 1
     - _Outline_Thickness: 2
     - _Parallax: 0.005
@@ -141,6 +145,8 @@ Material:
     - Toon_Ramp_Tint: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Dissolve_Color: {r: 0, g: 0.8070264, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _GOZ_RENGI: {r: 1, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
