@@ -4,54 +4,33 @@ using System.Collections;
 
 public class komboscript : MonoBehaviour
 {
-    public TMP_Text comboLevelText; // Kombo seviyesini gösterecek UI Text
-    public ShakeEffect shakeEffect; // Sallama efektini yönetecek script
+    public TMP_Text comboLevelText; // Kombo seviyesini gï¿½sterecek UI Text
+    public ShakeEffect shakeEffect; // Sallama efektini yï¿½netecek script
 
-    public float transitionDuration = 0.5f; // Harfin gelme süresi
-    public Vector2 spawnOffsetRange = new Vector2(100f, 100f); // Rastgele baþlangýç pozisyonu aralýðý
+    public float transitionDuration = 0.5f; // Harfin gelme sï¿½resi
+    public Vector2 spawnOffsetRange = new Vector2(100f, 100f); // Rastgele baï¿½langï¿½ï¿½ pozisyonu aralï¿½ï¿½ï¿½
 
     private string[] comboLevels = { "D", "C", "B", "A", "S" }; // Kombo seviyeleri
-    private int currentComboIndex = 0; // Þu anki seviye indeksi
+    private int currentComboIndex = 0; // ï¿½u anki seviye indeksi
     private Vector3 originalPosition;
 
     private void Start()
     {
         // Orijinal pozisyonu kaydet
         originalPosition = comboLevelText.rectTransform.localPosition;
-
-        // Ýlk komboyu göster
-        UpdateComboDisplay();
     }
 
-    private void Update()
-    {
-        // T tuþuna basarak kombo seviyesini artýr
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            IncreaseComboLevel();
-        }
-    }
 
-    public void IncreaseComboLevel()
+    internal void UpdateComboDisplay(int currenComboLVL)
     {
-        // Maksimum seviyeyi kontrol et
-        if (currentComboIndex < comboLevels.Length - 1)
-        {
-            currentComboIndex++;
-            UpdateComboDisplay();
-        }
-    }
-
-    private void UpdateComboDisplay()
-    {
-        // Mevcut kombo seviyesini göster ve animasyonu tetikle
-        string newComboLevel = comboLevels[currentComboIndex];
+        // Mevcut kombo seviyesini gï¿½ster ve animasyonu tetikle
+        string newComboLevel = comboLevels[currenComboLVL];
         StartCoroutine(AnimateComboChange(newComboLevel));
     }
 
     private IEnumerator AnimateComboChange(string newComboLevel)
     {
-        // Rastgele bir baþlangýç pozisyonu seç
+        // Rastgele bir baï¿½langï¿½ï¿½ pozisyonu seï¿½
         Vector3 randomStartOffset = new Vector3(
             Random.Range(-spawnOffsetRange.x, spawnOffsetRange.x),
             Random.Range(-spawnOffsetRange.y, spawnOffsetRange.y),
@@ -61,10 +40,10 @@ public class komboscript : MonoBehaviour
         Vector3 startPosition = originalPosition + randomStartOffset;
         comboLevelText.rectTransform.localPosition = startPosition;
 
-        // Harfi hemen güncelle
+        // Harfi hemen gï¿½ncelle
         comboLevelText.text = newComboLevel;
 
-        // Lineer olarak harfi orijinal pozisyona taþýrken animasyon yap
+        // Lineer olarak harfi orijinal pozisyona taï¿½ï¿½rken animasyon yap
         float elapsed = 0f;
         while (elapsed < transitionDuration)
         {

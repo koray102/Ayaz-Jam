@@ -124,7 +124,7 @@ MonoBehaviour:
   tree: {fileID: 0}
   uIManagerSc: {fileID: 0}
   isHunter: 1
-  dashCoolDown: 5
+  dashCoolDown: 3.5
   dieSFX: {fileID: 467289443725786470, guid: 4131479825f8d244cb1f6e19b690acbc, type: 3}
 --- !u!54 &4842085205634071346
 Rigidbody:

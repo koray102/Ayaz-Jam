@@ -27,6 +27,7 @@ public class Scythe : MonoBehaviour
     [SerializeField] private int maxComboLevel;
     [SerializeField] private Cooldown cooldownSc;
     [SerializeField] private FPSCameraScript fpsCameraScriptSc;
+    [SerializeField] private komboscript komboSC;
     [SerializeField] private Volume rageVolume;
     private Coroutine volumeCoroutine;
     private Coroutine camShakeCoroutine;
@@ -40,7 +41,7 @@ public class Scythe : MonoBehaviour
 
     void Start()
     {
-        
+        komboSC.UpdateComboDisplay(currentComboLevel);
     }
 
     // Update is called once per frame
@@ -145,6 +146,7 @@ public class Scythe : MonoBehaviour
             if(currentComboLevel < maxComboLevel)
             {
                 currentComboLevel++;
+                komboSC.UpdateComboDisplay(currentComboLevel);
                 SetRageVolume();
             }
         }else // kestigi zombi daha yetmiyosa geri sayimi baslat
@@ -185,16 +187,16 @@ public class Scythe : MonoBehaviour
         while(time > 0)
         {
             time -= Time.deltaTime;
-          //  UIManagerSc.comboCoolDown = time;
 
             yield return null;
         }
-       // UIManagerSc.comboCoolDown = 0;
 
         if(currentComboLevel != 0)
         {
             comboCountDownCoroutine = StartCoroutine(comboCountDown());
+
             currentComboLevel--;
+            komboSC.UpdateComboDisplay(currentComboLevel);
             SetRageVolume();
         }
     }
