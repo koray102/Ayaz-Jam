@@ -21,34 +21,7 @@ public class Enemy : MonoBehaviour
     private Vector3 targetPosition;
     private float currentPoint;
 
-    public Material targetMaterial; // Cutoff Height parametresini kontrol edeceğiniz materyal
-    public string cutoffHeightParameter = "_Cutoff"; // Shader parametresinin adı
-    public string olumParameter = "_OLUM";
-    public float startValue = 3.14f; // Başlangıç değeri
-    public float endValue = -0.5f; // Bitiş değeri
-    public float duration = 1.0f; // Kayma süresi (saniye)
 
-    private float elapsedTime;
-
-    public float olumStartValue = 0f; // OLUM parametresinin başlangıç değeri
-    public float olumEndValue = 1f; // OLUM parametresinin bitiş değeri
-    public float cutoffStartValue = -0.5f; // Cutoff Height parametresinin başlangıç değeri
-    public float cutoffEndValue = 3.13f; // Cutoff Height parametresinin bitiş değeri
-
-
-    void Awake()
-    {
-        // Bu obje üzerindeki Renderer bileşeninden materyali al
-        Renderer renderer = GetComponent<Renderer>();
-        if (renderer != null)
-        {
-            targetMaterial = renderer.material;
-        }
-        else
-        {
-            Debug.LogError("Renderer bulunamadı! Bu script bir objeye Renderer bileşeniyle birlikte eklenmelidir.");
-        }
-    }
 
     void Start()
     {
@@ -64,6 +37,8 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
+
+
         if(!isDied)
         {
             // Hedefe doğru bak
@@ -71,27 +46,6 @@ public class Enemy : MonoBehaviour
         }
 
         currentPoint = isGrabbed? point * 5f : point;
-
-
-
-        if (elapsedTime < duration && isDied)
-        {
-            elapsedTime += Time.deltaTime;
-
-            // Linear interpolation (Lerp) ile yeni değerleri hesapla
-            float olumValue = Mathf.Lerp(olumStartValue, olumEndValue, elapsedTime / duration);
-            float cutoffValue = Mathf.Lerp(cutoffStartValue, cutoffEndValue, elapsedTime / duration);
-
-            if(olumValue == olumEndValue)
-            {
-                Destroy(gameObject);
-            }
-            // Shader parametrelerini güncelle
-            Debug.Log(targetMaterial.ToString());
-            targetMaterial.SetFloat(olumParameter, olumValue);
-            targetMaterial.SetFloat(cutoffHeightParameter, cutoffValue);
-        }
-        
 
     }
 
@@ -150,6 +104,7 @@ public class Enemy : MonoBehaviour
 
         //animasyon vfx falan oynatılacak
 
+        Destroy(gameObject, destroyDuration);
        
     }
 
