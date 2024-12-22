@@ -96,7 +96,7 @@ public class Scythe : MonoBehaviour
 
             comboCountDownCoroutine = StartCoroutine(comboCountDown());
 
-            if(currentComboLevel <= maxComboLevel)
+            if(currentComboLevel < maxComboLevel)
             {
                 currentComboLevel++;
             }
