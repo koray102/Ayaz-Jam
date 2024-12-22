@@ -59,8 +59,6 @@ public class Scythe : MonoBehaviour
 
             RotateObject();
         }
-
-        //UIManagerSc.comboLevel = currentComboLevel;
     }
 
 
