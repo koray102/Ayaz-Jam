@@ -5,6 +5,7 @@ using UnityEngine;
 public class FPSCameraScript : MonoBehaviour
 {
     [SerializeField] private PlayerMovementPhysics playerMovementPhysicsSc;
+    [SerializeField] private menuscript menuSc;
     private float shakeMagModified;
     private Vector3 originalPosition; // Kameranın orijinal pozisyonu
     public float sensitivity = 150f;
@@ -14,12 +15,10 @@ public class FPSCameraScript : MonoBehaviour
     private float mouseX;
     private float mouseY;
 
+
     void Start()
     {
         // Keep the cursor at the middle of the screen and make is invisible.
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-
         originalPosition = transform.localPosition;
     }
 
@@ -40,7 +39,6 @@ public class FPSCameraScript : MonoBehaviour
         
         // Rotate the players body according to movement of mouse which made at x axis.
         playerTransform.Rotate(Vector3.up * mouseX);
-
     }
 
 

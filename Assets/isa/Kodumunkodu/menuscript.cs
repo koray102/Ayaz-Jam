@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
-using Unity.VisualScripting;
-using UnityEditor.Build.Content;
 
 public class menuscript : MonoBehaviour
 {
     public AudioMixer audioMixer;
 
-    public static bool GameisPaused = false;
+    public bool GameisPaused = false;
     public GameObject pauseMenuUI;
+
+
+    private void Start()
+    {
+        LockCursor();
+    }
     public void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -29,12 +33,14 @@ public class menuscript : MonoBehaviour
 
     public void Resume()
     {
+        LockCursor();
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         GameisPaused = false;
     }
     public void Pause()
     {
+        UnlockCursor();
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         GameisPaused = true;
@@ -66,5 +72,17 @@ public class menuscript : MonoBehaviour
     public void SetFullScreen(bool isFullscreen)
     {
             Screen.fullScreen = isFullscreen;
+    }
+
+    public void LockCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    public void UnlockCursor()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 }

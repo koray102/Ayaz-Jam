@@ -1,31 +1,43 @@
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MultiShaderParameterAnimator : MonoBehaviour
 {
-    public Material targetMaterial; // Shader parametrelerini kontrol edeceðiniz materyal
-    public string olumParameter = "OLUM"; // OLUM parametresinin adý
-    public string cutoffHeightParameter = "Cutoff Height"; // Cutoff Height parametresinin adý
-    public float olumStartValue = 0f; // OLUM parametresinin baþlangýç deðeri
-    public float olumEndValue = 1f; // OLUM parametresinin bitiþ deðeri
-    public float cutoffStartValue = -0.5f; // Cutoff Height parametresinin baþlangýç deðeri
-    public float cutoffEndValue = 3.13f; // Cutoff Height parametresinin bitiþ deðeri
-    public float duration = 1.0f; // Kayma süresi (saniye)
+    public Material targetMaterial; // Shader parametrelerini kontrol edeceï¿½iniz materyal
+    public string olumParameter = "OLUM"; // OLUM parametresinin adï¿½
+    public string cutoffHeightParameter = "Cutoff Height"; // Cutoff Height parametresinin adï¿½
+    public float olumStartValue = 0f; // OLUM parametresinin baï¿½langï¿½ï¿½ deï¿½eri
+    public float olumEndValue = 1f; // OLUM parametresinin bitiï¿½ deï¿½eri
+    public float cutoffStartValue = -0.5f; // Cutoff Height parametresinin baï¿½langï¿½ï¿½ deï¿½eri
+    public float cutoffEndValue = 3.13f; // Cutoff Height parametresinin bitiï¿½ deï¿½eri
+    [SerializeField] private float duration = 1f; // Kayma sï¿½resi (saniye)
+ 
 
-    private float elapsedTime;
-
-    void Update()
+    private void Start()
     {
-        if (elapsedTime < duration)
+        targetMaterial = GetComponent<Material>();
+    }
+
+
+    internal IEnumerator DieDissolve()
+    {
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
         {
+            Debug.Log(elapsedTime);
             elapsedTime += Time.deltaTime;
 
-            // Linear interpolation (Lerp) ile yeni deðerleri hesapla
+            // Linear interpolation (Lerp) ile yeni deï¿½erleri hesapla
             float olumValue = Mathf.Lerp(olumStartValue, olumEndValue, elapsedTime / duration);
             float cutoffValue = Mathf.Lerp(cutoffStartValue, cutoffEndValue, elapsedTime / duration);
 
-            // Shader parametrelerini güncelle
+            // Shader parametrelerini gï¿½ncelle
             targetMaterial.SetFloat(olumParameter, olumValue);
             targetMaterial.SetFloat(cutoffHeightParameter, cutoffValue);
+
+            yield return null;
         }
     }
 }

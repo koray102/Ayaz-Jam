@@ -6,8 +6,9 @@ TagManager:
   tags:
   - CinemachineTarget
   - Enemy
-  - UIMANAGER
   - UIManager
+  - Ground
+  - LifeTree
   layers:
   - Default
   - TransparentFX
@@ -19,7 +20,7 @@ TagManager:
   - 
   - Character
   - Ground
-  - 
+  - Enemy
   - 
   - 
   - 
