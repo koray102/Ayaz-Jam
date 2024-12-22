@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class FPSCameraScript : MonoBehaviour
 {
+    [SerializeField] private PlayerMovementPhysics playerMovementPhysicsSc;
+    private float shakeMagModified;
+    private Vector3 originalPosition; // Kameranın orijinal pozisyonu
     public float sensitivity = 150f;
     public Transform playerTransform;
     private float xRotation;
@@ -16,6 +19,8 @@ public class FPSCameraScript : MonoBehaviour
         // Keep the cursor at the middle of the screen and make is invisible.
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        originalPosition = transform.localPosition;
     }
 
     
@@ -35,5 +40,26 @@ public class FPSCameraScript : MonoBehaviour
         
         // Rotate the players body according to movement of mouse which made at x axis.
         playerTransform.Rotate(Vector3.up * mouseX);
+
+    }
+
+
+    internal IEnumerator Shake(float shakeDuration, float shakeMagnitude)
+    {
+        float elapsed = 0f;
+        shakeMagModified = playerMovementPhysicsSc.isGrounded? shakeMagnitude : shakeMagnitude * 2f;
+
+        while (elapsed < shakeDuration)
+        {
+            // Rastgele bir pozisyon hesapla
+            Vector3 randomOffset = Random.insideUnitSphere * shakeMagModified;
+            transform.localPosition = originalPosition + randomOffset;
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        // Titreşim bittikten sonra kamerayı orijinal pozisyona getir
+        transform.localPosition = originalPosition;
     }
 }

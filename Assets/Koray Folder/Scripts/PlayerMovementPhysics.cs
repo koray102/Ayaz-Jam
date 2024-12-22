@@ -7,6 +7,8 @@ using UnityEngine;
 public class PlayerMovementPhysics : MonoBehaviour
 {
     [SerializeField] private GameObject cam;
+    [SerializeField] private Scythe scytheSc;
+
 
     [Header("Movement")]
     [SerializeField] private float speedInput;
@@ -32,11 +34,39 @@ public class PlayerMovementPhysics : MonoBehaviour
     [SerializeField] private float duration;
     [SerializeField] private GameObject hand;
     [SerializeField] private Transform handStartPos;
+    private float grabCoolDown;
+    private bool canGrab = true;
     private Coroutine grabCoroutine;
     private Coroutine throwHandCoroutine;
     private Coroutine pullHandCoroutine;
     private quaternion handStartRot;
     private LineRenderer lineRenderer;
+
+
+    [Header("VFX")]
+    [SerializeField] private ParticleSystem windVFX;
+    [SerializeField] private float windMinVelo;
+
+
+    [Header("Life")]
+    [SerializeField] float healtDecreaseCooldown = 0.3f;
+    [SerializeField] private List<float> grabCoolDownList = new List<float>{5f, 3f, 0f};
+    [SerializeField] private List<float> scytheAttackDuration = new List<float>{1f, 0.7f, 0f};
+    [SerializeField] private List<float> maxVeloList = new List<float>{4f, 7f, 13f};
+    private int health = 3;
+    private bool canLoseHealth = true;
+    internal bool isDead;
+
+
+    [Header("Power Landing")]
+    [SerializeField] private float minSpeedToLand = 15f;
+    [SerializeField] private float damageRange = 8f;
+    [SerializeField] private float pointFactor = 5f;
+    [SerializeField] private LayerMask enemyLayer;
+    [SerializeField] private FPSCameraScript fpsCameraScriptSc;
+    [SerializeField] private float landShakeDuration = 0.3f; // Titreşim süresi
+    [SerializeField] private float landShakeMagnitude = 0.7f; // Titreşim büyüklüğü
+
 
     private float restLength;
     private float lastLength;
@@ -51,7 +81,7 @@ public class PlayerMovementPhysics : MonoBehaviour
     private Rigidbody playerRb;
     private float horizontal;
     private float vertical;
-    private bool isGrounded;
+    internal bool isGrounded;
     private Vector3 downDir;
 
 
@@ -63,6 +93,8 @@ public class PlayerMovementPhysics : MonoBehaviour
         lineRenderer.positionCount = 2; // A line needs two points
 
         handStartRot = hand.transform.localRotation;
+        
+        SetStats();
     }
 
 
@@ -78,10 +110,10 @@ public class PlayerMovementPhysics : MonoBehaviour
       
         if(Input.GetKey(KeyCode.LeftShift))
         {
-            speed = runSpeed;
+            speed = isGrounded ? runSpeed : runSpeed / 2;
         }else
         {
-            speed = speedInput;
+            speed = isGrounded ? speedInput : speedInput / 2;
         }
         
         if(Input.GetKeyDown("space") && isGrounded)
@@ -96,7 +128,8 @@ public class PlayerMovementPhysics : MonoBehaviour
             ReleaseGrab();
         }
 
-        if(!isGrabbing && grapInput && Physics.Raycast(cam.transform.position, cam.transform.forward, out RaycastHit hit, maxGrabDistance, ~ignoreRaycast))
+
+        if(canGrab && !isGrabbing && grapInput && Physics.SphereCast(cam.transform.position, 0.5f, cam.transform.forward, out RaycastHit hit, maxGrabDistance, ~ignoreRaycast))
         {
             grabbedObject = hit.transform.gameObject;
             grabbedRb = grabbedObject.GetComponent<Rigidbody>();
@@ -118,6 +151,8 @@ public class PlayerMovementPhysics : MonoBehaviour
             }
 
             throwHandCoroutine = StartCoroutine(ThrowHand(grabPoint));
+
+            StartCoroutine(GrabCountDown());
         }
 
 
@@ -129,6 +164,14 @@ public class PlayerMovementPhysics : MonoBehaviour
         {
             hand.transform.localRotation = handStartRot;
             lineRenderer.enabled = false;
+        }
+
+        if(playerRb.velocity.magnitude > windMinVelo)
+        {
+            windVFX.Play();
+        }else if(windVFX.isPlaying)
+        {
+            windVFX.Stop();
         }
     }
 
@@ -420,5 +463,87 @@ public class PlayerMovementPhysics : MonoBehaviour
         // Update the LineRenderer positions
         lineRenderer.SetPosition(0, startPoint);
         lineRenderer.SetPosition(1, endPoint);
+    }
+    
+
+    private IEnumerator healthDecreaseCountDown()
+    {
+        float time = healtDecreaseCooldown;
+        
+        while(time > 0)
+        {
+            time -= Time.deltaTime;
+
+            yield return null;
+        }
+
+        canLoseHealth = true;
+    }
+
+
+    private IEnumerator GrabCountDown()
+    {
+        float time = grabCoolDown;
+
+        canGrab = false;
+        
+        while(time > 0)
+        {
+            time -= Time.deltaTime;
+
+            yield return null;
+        }
+
+        canGrab = true;
+    }
+
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if(other.gameObject.CompareTag("Enemy") && canLoseHealth)
+        {
+            health--;
+
+            isDead = health <= 0; // bu neymis la
+
+            if(!isDead)
+            {
+                SetStats();
+                canLoseHealth = false;
+                StartCoroutine(healthDecreaseCountDown());
+            }
+        }
+
+        PowerLanding();
+    }
+
+
+    private void PowerLanding()
+    {
+        float velocity = playerRb.velocity.magnitude;
+
+        if(isGrabbing && velocity > minSpeedToLand)
+        {
+            Collider[] colliders = Physics.OverlapSphere(transform.position, damageRange, enemyLayer);
+            StartCoroutine(fpsCameraScriptSc.Shake(landShakeDuration, landShakeMagnitude));
+
+            // Bulunan Collider'ların GameObject'lerini listeye ekle
+            foreach (Collider collider in colliders)
+            {
+                Enemy enemySc = collider.GetComponent<Enemy>();
+                
+                scytheSc.SetCombo();
+                enemySc.Die(pointFactor);
+            }
+        }
+    }
+
+
+    private void SetStats()
+    {
+        // sondan basladigi icin 3ten cikar
+        maxSpeed = maxVeloList[3 - health];
+        grabCoolDown = grabCoolDownList[3 - health];
+        scytheSc.duration = scytheAttackDuration[3 - health];
     }
 }
