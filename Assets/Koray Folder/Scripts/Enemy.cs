@@ -12,7 +12,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float maxChaseDistance = 30f;
     [SerializeField] private float reachToTreeDistance = 2f;
     [SerializeField] private GameObject tree;
-    [SerializeField] private UIManager uIManagerSc;
+    [SerializeField] private Count2Target uIManagerSc;
     private PlayerMovementPhysics playerMovementPhysicsSc;
     internal bool isDied;
     internal bool isGrabbed;
@@ -29,7 +29,7 @@ public class Enemy : MonoBehaviour
         playerMovementPhysicsSc = player.GetComponent<PlayerMovementPhysics>();
         
         tree = GameObject.Find("LifeTree");
-        uIManagerSc = GameObject.FindGameObjectWithTag("UIMANAGER").GetComponent<UIManager>();
+        uIManagerSc = GameObject.FindGameObjectWithTag("UIManager").GetComponent<Count2Target>();
     }
 
 
@@ -95,7 +95,7 @@ public class Enemy : MonoBehaviour
             playerMovementPhysicsSc.ReleaseGrab();
         }
 
-        uIManagerSc.point += currentPoint * comboFactor;
+        uIManagerSc.AddValue(currentPoint * comboFactor);
 
         //animasyon vfx falan oynatılacak
 
