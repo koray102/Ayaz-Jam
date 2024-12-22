@@ -29,6 +29,7 @@ public class Enemy : MonoBehaviour
     private Vector3 direction;
 
 
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -37,11 +38,14 @@ public class Enemy : MonoBehaviour
         
         tree = GameObject.Find("LifeTree");
         uIManagerSc = GameObject.FindGameObjectWithTag("UIManager").GetComponent<Count2Target>();
+
     }
 
 
     void Update()
     {
+
+
         if(!isDied)
         {
             // Hedefe doğru bak
@@ -49,6 +53,7 @@ public class Enemy : MonoBehaviour
         }
 
         currentPoint = isGrabbed? point * 5f : point;
+
     }
 
 
@@ -130,6 +135,7 @@ public class Enemy : MonoBehaviour
         //StartCoroutine(dissolveSc.DieDissolve());
 
         Destroy(gameObject, destroyDuration);
+       
     }
 
 

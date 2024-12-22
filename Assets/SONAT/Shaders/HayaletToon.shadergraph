@@ -1893,7 +1893,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "148957e4813d4209b26e0fddd7018206",
     "m_Id": 0,
-    "m_DisplayName": "Cutoff Height",
+    "m_DisplayName": "Cutoff",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -4809,9 +4809,6 @@
             "m_Id": "476906c4eee9488892e505aacf91b81e"
         },
         {
-            "m_Id": "bc4b914d1f444eb1a9c251395aef71f3"
-        },
-        {
             "m_Id": "f0db0282784e444abac50cdbfb2ac8dc"
         }
     ]
@@ -5902,6 +5899,9 @@
         },
         {
             "m_Id": "b20c3f3e2bda49aa9670e8676989731f"
+        },
+        {
+            "m_Id": "bc4b914d1f444eb1a9c251395aef71f3"
         }
     ]
 }
@@ -7576,10 +7576,10 @@
     "m_Guid": {
         "m_GuidSerialized": "134a3176-8643-4e0e-998b-b5702cec8057"
     },
-    "m_Name": "Cutoff Height",
+    "m_Name": "Cutoff",
     "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "Cutoff Height",
-    "m_DefaultReferenceName": "_Cutoff_Height",
+    "m_RefNameGeneratedByDisplayName": "Cutoff",
+    "m_DefaultReferenceName": "_Cutoff",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,
