@@ -107,9 +107,9 @@ Material:
     - Boolean_35A71344: 0
     - Boolean_7A5F3F39: 0
     - Boolean_7AC8D832: 0
-    - Brightness_Rim: 2
-    - Rim_Power: 5
-    - Toon_Ramp_Offset: 0
+    - Brightness_Rim: 0
+    - Rim_Power: 0
+    - Toon_Ramp_Offset: 0.5
     - Toon_Ramp_Smoothness: 0
     - Vector1_3402D67A: 1
     - Vector1_3655428E: 2
@@ -130,7 +130,7 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
-    - _Depth_Sensitivity: 0
+    - _Depth_Sensitivity: 0.01
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -139,9 +139,9 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Metallic: 1
-    - _Normals_Sensitivity: 0.5
+    - _Normals_Sensitivity: 0.22
     - _OcclusionStrength: 1
-    - _Outline_Thickness: 2
+    - _Outline_Thickness: 1.85
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
@@ -159,7 +159,7 @@ Material:
     - Color_30A0CA2F: {r: 1, g: 1, b: 1, a: 0}
     - Toon_Ramp_Tint: {r: 0.49056596, g: 0.49056596, b: 0.49056596, a: 1}
     - _BaseColor: {r: 0.19127488, g: 1, b: 0, a: 1}
-    - _Color: {r: 0.06421011, g: 0.8207547, b: 0, a: 1}
+    - _Color: {r: 0.11320752, g: 0.05868821, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
