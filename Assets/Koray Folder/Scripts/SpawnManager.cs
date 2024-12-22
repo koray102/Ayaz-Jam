@@ -6,7 +6,7 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField] private List<Transform> spawnPoints = new List<Transform>();
-    [SerializeField] private GameObject ghostPrefab;
+    [SerializeField] private List<GameObject> ghostPrefab = new List<GameObject>();
     [SerializeField] private float startSpawnRate = 3f;
     [SerializeField] private float desiaredSpawnRate = 0.7f;
     [SerializeField] private float duration = 180f;
@@ -45,7 +45,7 @@ public class SpawnManager : MonoBehaviour
         {
             Transform randomTransform = spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Count)];
 
-            Instantiate(ghostPrefab, randomTransform.position, Quaternion.identity);
+            Instantiate(ghostPrefab[UnityEngine.Random.Range(0, ghostPrefab.Count)], randomTransform.position, Quaternion.identity);
 
             yield return new WaitForSeconds(spawnTime);
         }

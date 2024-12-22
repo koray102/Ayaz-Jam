@@ -34,6 +34,7 @@ public class PlayerMovementPhysics : MonoBehaviour
     [SerializeField] private float duration;
     [SerializeField] private GameObject hand;
     [SerializeField] private Transform handStartPos;
+    [SerializeField] private Cooldown cooldownSc;
     private float grabCoolDown;
     private bool canGrab = true;
     private Coroutine grabCoroutine;
@@ -48,11 +49,17 @@ public class PlayerMovementPhysics : MonoBehaviour
     [SerializeField] private float windMinVelo;
 
 
+    [Header("SFX")]
+    [SerializeField] private AudioSource grabSFX;
+    [SerializeField] private AudioSource powerLandingSFX;
+
+
     [Header("Life")]
     [SerializeField] float healtDecreaseCooldown = 0.3f;
     [SerializeField] private List<float> grabCoolDownList = new List<float>{5f, 3f, 0f};
     [SerializeField] private List<float> scytheAttackDuration = new List<float>{1f, 0.7f, 0f};
     [SerializeField] private List<float> maxVeloList = new List<float>{4f, 7f, 13f};
+    [SerializeField] private List<GameObject> hearthUI = new List<GameObject>();
     private int health = 3;
     private bool canLoseHealth = true;
     internal bool isDead;
@@ -131,6 +138,11 @@ public class PlayerMovementPhysics : MonoBehaviour
 
         if(canGrab && !isGrabbing && grapInput && Physics.SphereCast(cam.transform.position, 0.5f, cam.transform.forward, out RaycastHit hit, maxGrabDistance, ~ignoreRaycast))
         {
+            if(grabSFX != null)
+            {
+                grabSFX.PlayOneShot(grabSFX.clip);
+            }
+
             grabbedObject = hit.transform.gameObject;
             grabbedRb = grabbedObject.GetComponent<Rigidbody>();
 
@@ -490,10 +502,12 @@ public class PlayerMovementPhysics : MonoBehaviour
         while(time > 0)
         {
             time -= Time.deltaTime;
+            cooldownSc.UpdateCooldownExternally(0, time, grabCoolDown);
 
             yield return null;
         }
 
+        cooldownSc.UpdateCooldownExternally(0, 0, grabCoolDown);
         canGrab = true;
     }
 
@@ -502,6 +516,9 @@ public class PlayerMovementPhysics : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Enemy") && canLoseHealth)
         {
+            GameObject currentHearth = hearthUI[3 - health];
+            currentHearth.SetActive(false);
+            
             health--;
 
             isDead = health <= 0; // bu neymis la
@@ -514,7 +531,15 @@ public class PlayerMovementPhysics : MonoBehaviour
             }
         }
 
-        PowerLanding();
+        if(other.gameObject.CompareTag("Ground"))
+        {
+            if(powerLandingSFX != null)
+            {
+                powerLandingSFX.PlayOneShot(powerLandingSFX.clip);
+            }
+
+            PowerLanding();
+        }
     }
 
 

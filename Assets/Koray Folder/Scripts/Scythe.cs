@@ -7,6 +7,10 @@ using System;
 
 public class Scythe : MonoBehaviour
 {
+    [Header("SFX")]
+    [SerializeField] private AudioSource scytheSFX;
+
+
     [Header("Cam Shake")]
     [SerializeField] private float shakeDuration = 0.1f; // Titreşim süresi
     [SerializeField] private float shakeMagnitude = 0.25f; // Titreşim büyüklüğü
@@ -21,8 +25,9 @@ public class Scythe : MonoBehaviour
     [SerializeField] private int comboUpTreshold;
     [SerializeField] private List<float> comboFactors = new List<float>{1f, 2f, 4f, 10f, 20f};
     [SerializeField] private int maxComboLevel;
-    [SerializeField] private Cooldown cooldownScS;
+    [SerializeField] private Cooldown cooldownSc;
     [SerializeField] private FPSCameraScript fpsCameraScriptSc;
+    [SerializeField] private komboscript komboSC;
     [SerializeField] private Volume rageVolume;
     private Coroutine volumeCoroutine;
     private Coroutine camShakeCoroutine;
@@ -36,7 +41,7 @@ public class Scythe : MonoBehaviour
 
     void Start()
     {
-        
+        komboSC.UpdateComboDisplay(currentComboLevel);
     }
 
     // Update is called once per frame
@@ -44,12 +49,16 @@ public class Scythe : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(0) && rotationDone)
         {
+            if(scytheSFX != null)
+            {
+                scytheSFX.pitch = Mathf.Pow(duration, -1);
+                scytheSFX.PlayOneShot(scytheSFX.clip);
+            }
+
             StartCoroutine(Attack());
 
             RotateObject();
         }
-
-        //UIManagerSc.comboLevel = currentComboLevel;
     }
 
 
@@ -98,6 +107,24 @@ public class Scythe : MonoBehaviour
             {
                 rotationDone = true;
             });
+
+        StartCoroutine(ScytheCountDown());
+    }
+
+
+    private IEnumerator ScytheCountDown()
+    {
+        float time = duration;
+        
+        while(time > 0)
+        {
+            time -= Time.deltaTime;
+            cooldownSc.UpdateCooldownExternally(1, time, duration);
+
+            yield return null;
+        }
+
+        cooldownSc.UpdateCooldownExternally(1, 0, duration);
     }
 
     
@@ -117,6 +144,7 @@ public class Scythe : MonoBehaviour
             if(currentComboLevel < maxComboLevel)
             {
                 currentComboLevel++;
+                komboSC.UpdateComboDisplay(currentComboLevel);
                 SetRageVolume();
             }
         }else // kestigi zombi daha yetmiyosa geri sayimi baslat
@@ -142,11 +170,9 @@ public class Scythe : MonoBehaviour
         while(time > 0)
         {
             time -= Time.deltaTime;
-           // UIManagerSc.zombieCoolDown = time;
 
             yield return null;
         }
-      //  UIManagerSc.zombieCoolDown = 0;
 
         killedZombies = 0;
     }
@@ -159,16 +185,16 @@ public class Scythe : MonoBehaviour
         while(time > 0)
         {
             time -= Time.deltaTime;
-          //  UIManagerSc.comboCoolDown = time;
 
             yield return null;
         }
-       // UIManagerSc.comboCoolDown = 0;
 
         if(currentComboLevel != 0)
         {
             comboCountDownCoroutine = StartCoroutine(comboCountDown());
+
             currentComboLevel--;
+            komboSC.UpdateComboDisplay(currentComboLevel);
             SetRageVolume();
         }
     }

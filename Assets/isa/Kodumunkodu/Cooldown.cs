@@ -4,21 +4,23 @@ using System.Collections.Generic;
 
 public class Cooldown : MonoBehaviour
 {
-    public List<Image> cooldownOverlays; // List of radial fill images for each skill
-    public List<float> cooldownDurations; // List of cooldown durations for each skill
-    private List<bool> isOnCooldown; // List of cooldown states for each skill
-    private List<float> cooldownTimers; // List of cooldown timers for each skill
+    public List<Image> cooldownOverlays; // Skill cooldown UI'ları
+    public List<bool> isOnCooldown; // Skill cooldown durumları
+    private List<float> cooldownTimers; // Mevcut cooldown süreleri
+    private List<float> cooldownDurations; // Başlangıç cooldown süreleri
 
     void Start()
     {
-        // Initialize the lists
+        // Tüm listeleri başlat
         isOnCooldown = new List<bool>();
         cooldownTimers = new List<float>();
+        cooldownDurations = new List<float>();
 
         foreach (var overlay in cooldownOverlays)
         {
             isOnCooldown.Add(false);
             cooldownTimers.Add(0);
+            cooldownDurations.Add(0); // Varsayılan süre 0 olarak başlar
         }
     }
 
@@ -28,41 +30,42 @@ public class Cooldown : MonoBehaviour
         {
             if (isOnCooldown[i])
             {
-                // Update the cooldown timer
+                // Cooldown süresini düşür
                 cooldownTimers[i] -= Time.deltaTime;
 
-                // Calculate the fill amount (1 = full shade, 0 = no shade)
+                // UI için doluluk oranını ayarla
                 cooldownOverlays[i].fillAmount = cooldownTimers[i] / cooldownDurations[i];
 
-                // End cooldown when timer reaches zero
+                // Cooldown bittiğinde işlemi sonlandır
                 if (cooldownTimers[i] <= 0)
                 {
                     cooldownTimers[i] = 0;
                     isOnCooldown[i] = false;
-                    cooldownOverlays[i].fillAmount = 0; // Ensure fully clear
+                    cooldownOverlays[i].fillAmount = 0;
                 }
             }
         }
-
-        // Example: Trigger cooldown for testing (replace with actual skill logic)
-        if (Input.GetKeyDown(KeyCode.E) && !isOnCooldown[0]) // For Skill 1
-        {
-            StartCooldown(0);
-        }
-        if (Input.GetMouseButtonDown(0)&& !isOnCooldown[1]) // For Skill 2
-        {
-            StartCooldown(1);
-        }
-        // Add more keys for additional skills if needed
     }
 
-    public void StartCooldown(int skillIndex)
+    public void StartCooldown(int skillIndex, float duration)
     {
         if (!isOnCooldown[skillIndex])
         {
             isOnCooldown[skillIndex] = true;
-            cooldownTimers[skillIndex] = cooldownDurations[skillIndex];
-            cooldownOverlays[skillIndex].fillAmount = 1; // Fully shaded
+            cooldownDurations[skillIndex] = duration; // Yeni cooldown süresi
+            cooldownTimers[skillIndex] = duration;
+            cooldownOverlays[skillIndex].fillAmount = 1; // UI'yi tamamen doldur
+        }
+    }
+
+    public void UpdateCooldownExternally(int skillIndex, float remainingTime, float totalDuration)
+    {
+        if (skillIndex >= 0 && skillIndex < cooldownOverlays.Count)
+        {
+            isOnCooldown[skillIndex] = true;
+            cooldownDurations[skillIndex] = totalDuration;
+            cooldownTimers[skillIndex] = remainingTime;
+            cooldownOverlays[skillIndex].fillAmount = remainingTime / totalDuration;
         }
     }
 }

@@ -13,6 +13,12 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float reachToTreeDistance = 2f;
     [SerializeField] private GameObject tree;
     [SerializeField] private Count2Target uIManagerSc;
+    [SerializeField] private bool isHunter;
+    [SerializeField] private float dashCoolDown = 2f;
+    [SerializeField] private GameObject dieSFX;
+    private bool canDash = true;
+    private bool isTargetPlayer;
+    //[SerializeField] private MultiShaderParameterAnimator dissolveSc;
     private PlayerMovementPhysics playerMovementPhysicsSc;
     internal bool isDied;
     internal bool isGrabbed;
@@ -20,6 +26,8 @@ public class Enemy : MonoBehaviour
     private Rigidbody rb;
     private Vector3 targetPosition;
     private float currentPoint;
+    private Vector3 direction;
+
 
 
     void Start()
@@ -30,11 +38,14 @@ public class Enemy : MonoBehaviour
         
         tree = GameObject.Find("LifeTree");
         uIManagerSc = GameObject.FindGameObjectWithTag("UIManager").GetComponent<Count2Target>();
+
     }
 
 
     void Update()
     {
+
+
         if(!isDied)
         {
             // Hedefe doğru bak
@@ -42,6 +53,7 @@ public class Enemy : MonoBehaviour
         }
 
         currentPoint = isGrabbed? point * 5f : point;
+
     }
 
 
@@ -59,20 +71,36 @@ public class Enemy : MonoBehaviour
 
     private void PhysicalMove()
     {
-        Vector3 direction;
 
         if(Vector3.Distance(transform.position, player.transform.position) < maxChaseDistance) // oyuncuyu görüyorsa
         {
+            isTargetPlayer = true;
             targetPosition = player.transform.position;
         }else
         {
+            isTargetPlayer = false;
             targetPosition = tree.transform.position;
         }
 
         direction = targetPosition - transform.position;
         direction.y = 0;
 
-        rb.AddForce(direction.normalized * moveSpeed * Time.fixedDeltaTime, ForceMode.VelocityChange);
+        if(!isHunter)
+        {
+            rb.AddForce(direction.normalized * moveSpeed * Time.fixedDeltaTime, ForceMode.VelocityChange);
+        }else
+        {
+            if(isTargetPlayer)
+            {
+                if(canDash)
+                {
+                    StartCoroutine(DashCountDown());
+                }
+            }else
+            { 
+                rb.AddForce(direction.normalized * moveSpeed * Time.fixedDeltaTime, ForceMode.VelocityChange);
+            }
+        }
         
         if(!isGrabbed)
         {
@@ -90,6 +118,12 @@ public class Enemy : MonoBehaviour
     internal void Die(float comboFactor)
     {
         isDied = true;
+        
+        if(dieSFX != null)
+        {
+            Instantiate(dieSFX, transform.position, Quaternion.identity);
+        }
+
         if(isGrabbed)
         {
             playerMovementPhysicsSc.ReleaseGrab();
@@ -98,8 +132,10 @@ public class Enemy : MonoBehaviour
         uIManagerSc.AddValue(currentPoint * comboFactor);
 
         //animasyon vfx falan oynatılacak
+        //StartCoroutine(dissolveSc.DieDissolve());
 
         Destroy(gameObject, destroyDuration);
+       
     }
 
 
@@ -119,11 +155,34 @@ public class Enemy : MonoBehaviour
     }
 
 
+    private IEnumerator DashCountDown()
+    {
+        float time = dashCoolDown;
+
+        canDash = false;
+        
+        while(time > 0)
+        {
+            time -= Time.deltaTime;
+
+            yield return null;
+        }
+
+        rb.AddForce(direction.normalized * moveSpeed * 2f, ForceMode.Impulse);
+        canDash = true;
+    }
+
+
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
             //oyuncuya degerse ne olcak
+        }
+
+        if (collision.gameObject.CompareTag("LifeTree"))
+        {
+            Debug.Log("AGAC");
         }
     }
 

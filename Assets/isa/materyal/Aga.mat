@@ -100,7 +100,7 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
-    - _Depth_Sensitivity: 0.23
+    - _Depth_Sensitivity: 0
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -109,9 +109,9 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Metallic: 0
-    - _Normals_Sensitivity: 0.26
+    - _Normals_Sensitivity: 0.71
     - _OcclusionStrength: 1
-    - _Outline_Thickness: 2
+    - _Outline_Thickness: 1.94
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
