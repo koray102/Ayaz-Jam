@@ -60,6 +60,8 @@ public class PlayerMovementPhysics : MonoBehaviour
     [SerializeField] private List<float> scytheAttackDuration = new List<float>{1f, 0.7f, 0f};
     [SerializeField] private List<float> maxVeloList = new List<float>{4f, 7f, 13f};
     [SerializeField] private List<GameObject> hearthUI = new List<GameObject>();
+    [SerializeField] private GameObject dedCanva;
+    [SerializeField] private menuscript menuSc;
     private int health = 3;
     private bool canLoseHealth = true;
     internal bool isDead;
@@ -528,6 +530,10 @@ public class PlayerMovementPhysics : MonoBehaviour
                 SetStats();
                 canLoseHealth = false;
                 StartCoroutine(healthDecreaseCountDown());
+            }else
+            {
+                Time.timeScale = 0f;
+                dedCanva.SetActive(true);
             }
         }
 

@@ -14,7 +14,7 @@ public class komboscript : MonoBehaviour
     private int currentComboIndex = 0; // �u anki seviye indeksi
     private Vector3 originalPosition;
 
-    private void Start()
+    private void Awake()
     {
         // Orijinal pozisyonu kaydet
         originalPosition = comboLevelText.rectTransform.localPosition;

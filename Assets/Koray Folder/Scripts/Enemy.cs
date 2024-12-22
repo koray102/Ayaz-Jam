@@ -182,7 +182,8 @@ public class Enemy : MonoBehaviour
 
         if (collision.gameObject.CompareTag("LifeTree"))
         {
-            Debug.Log("AGAC");
+            collision.gameObject.GetComponent<LifeTree>().decreaseLife(10);
+            Destroy(gameObject);
         }
     }
 

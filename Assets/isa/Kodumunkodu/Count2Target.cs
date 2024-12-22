@@ -8,6 +8,7 @@ public class Count2Target : MonoBehaviour
     public float countDuration = 1f; // Duration for the count
     public float shakeMagnitude = 10f; // Magnitude of the visual shake
     public TMP_Text skor; // Reference to the score text
+    public TMP_Text skorDed; // Reference to the score text
 
     private float currentValue = 0f, targetValue = 0f;
     private Coroutine _C2T;
@@ -39,6 +40,7 @@ public class Count2Target : MonoBehaviour
 
             // Update the displayed value
             skor.text = ((int)currentValue).ToString();
+            skorDed.text = ((int)currentValue).ToString();
 
             yield return null;
         }
@@ -46,6 +48,7 @@ public class Count2Target : MonoBehaviour
         // Reset position and set final value once counting is complete
         skor.rectTransform.localPosition = originalPosition;
         skor.text = ((int)currentValue).ToString();
+        skorDed.text = ((int)currentValue).ToString();
     }
 
 
