@@ -113,8 +113,8 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
-    - _Cutoff_Height: -0.58
-    - _Depth_Sensitivity: 0.14
+    - _Cutoff_Height: -0.5
+    - _Depth_Sensitivity: 0.33
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -125,8 +125,9 @@ Material:
     - _Glow_Thickness: 0.08
     - _Metallic: 0
     - _Noise_Scale: 100
-    - _Noise_Strenght: 2.77
-    - _Normals_Sensitivity: 1
+    - _Noise_Strenght: 3.88
+    - _Normals_Sensitivity: 0.45
+    - _OLUM: 0
     - _OcclusionStrength: 1
     - _Outline_Thickness: 2
     - _Parallax: 0.005

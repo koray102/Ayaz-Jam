@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Grip2
-  m_Shader: {fileID: -6465566751694194690, guid: afeb296a2a7bf204c9c922418b49c4d4,
+  m_Shader: {fileID: -6465566751694194690, guid: 1c603ee7b757bc74fa2eff96490c5c8d,
     type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -70,7 +70,15 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Metallic:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal_MAp:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -121,7 +129,12 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _GradientPower: 10
+    - _GradientScale: 10
+    - _GraientEffectSpeed: 0.05
+    - _Is_lt_Var: 0
     - _Metallic: 0
+    - _Normal_Strenght: 1
     - _Normals_Sensitivity: 0.5
     - _OcclusionStrength: 1
     - _Outline_Thickness: 2
@@ -142,5 +155,6 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 0.14150941, g: 0.034042355, b: 0.10281265, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Gradient_Color: {r: 11.838055, g: 0, b: 10.722423, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
