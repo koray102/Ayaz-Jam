@@ -2,10 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.Rendering;
+using System;
 
 public class Scythe : MonoBehaviour
 {
-    [SerializeField] private float duration = 1f; // Degrees per second
+    [Header("Cam Shake")]
+    [SerializeField] private float shakeDuration = 0.1f; // Titreşim süresi
+    [SerializeField] private float shakeMagnitude = 0.25f; // Titreşim büyüklüğü
+    
+
+    [SerializeField] internal float duration = 1f; // Degrees per second
     [SerializeField] private float oyuncuDostuZaman = 0.5f; // Degrees per second
     [SerializeField] private GameObject scythe; // Degrees per second
     [SerializeField] private bool loopRotation = false;
@@ -14,7 +21,11 @@ public class Scythe : MonoBehaviour
     [SerializeField] private int comboUpTreshold;
     [SerializeField] private List<float> comboFactors = new List<float>{1f, 2f, 4f, 10f, 20f};
     [SerializeField] private int maxComboLevel;
-    [SerializeField] private UIManager UIManagerSc;
+    [SerializeField] private Cooldown cooldownScS;
+    [SerializeField] private FPSCameraScript fpsCameraScriptSc;
+    [SerializeField] private Volume rageVolume;
+    private Coroutine volumeCoroutine;
+    private Coroutine camShakeCoroutine;
     private int killedZombies = 0;
     private Coroutine zombieCountDownCoroutine;
     private int currentComboLevel = 0;
@@ -38,7 +49,7 @@ public class Scythe : MonoBehaviour
             RotateObject();
         }
 
-        UIManagerSc.comboLevel = currentComboLevel;
+        //UIManagerSc.comboLevel = currentComboLevel;
     }
 
 
@@ -58,6 +69,13 @@ public class Scythe : MonoBehaviour
                     killedZombies++;
 
                     SetCombo();
+
+                    if(camShakeCoroutine != null)
+                    {
+                        StopCoroutine(camShakeCoroutine);
+                    }
+                    
+                    camShakeCoroutine = StartCoroutine(fpsCameraScriptSc.Shake(shakeDuration, shakeMagnitude));
 
                     enemy.GetComponent<Enemy>().Die(comboFactors[currentComboLevel]); // Enemy'nin fonksiyonunu çağır
                     enemiesInRange.RemoveAt(i); // Orijinal koleksiyondan kaldır
@@ -83,7 +101,7 @@ public class Scythe : MonoBehaviour
     }
 
     
-    private void SetCombo()
+    internal void SetCombo()
     {
         if(comboCountDownCoroutine != null)
         {
@@ -99,6 +117,7 @@ public class Scythe : MonoBehaviour
             if(currentComboLevel < maxComboLevel)
             {
                 currentComboLevel++;
+                SetRageVolume();
             }
         }else // kestigi zombi daha yetmiyosa geri sayimi baslat
         {
@@ -108,7 +127,10 @@ public class Scythe : MonoBehaviour
             }
             zombieCountDownCoroutine = StartCoroutine(zombieCountDown());
 
-            comboCountDownCoroutine = StartCoroutine(comboCountDown());
+            if(currentComboLevel != 0)
+            {
+                comboCountDownCoroutine = StartCoroutine(comboCountDown());
+            }
         }
     }
 
@@ -120,11 +142,11 @@ public class Scythe : MonoBehaviour
         while(time > 0)
         {
             time -= Time.deltaTime;
-            UIManagerSc.zombieCoolDown = time;
+           // UIManagerSc.zombieCoolDown = time;
 
             yield return null;
         }
-        UIManagerSc.zombieCoolDown = 0;
+      //  UIManagerSc.zombieCoolDown = 0;
 
         killedZombies = 0;
     }
@@ -137,16 +159,52 @@ public class Scythe : MonoBehaviour
         while(time > 0)
         {
             time -= Time.deltaTime;
-            UIManagerSc.comboCoolDown = time;
+          //  UIManagerSc.comboCoolDown = time;
 
             yield return null;
         }
-        UIManagerSc.comboCoolDown = 0;
+       // UIManagerSc.comboCoolDown = 0;
 
         if(currentComboLevel != 0)
         {
+            comboCountDownCoroutine = StartCoroutine(comboCountDown());
             currentComboLevel--;
+            SetRageVolume();
         }
+    }
+
+
+    private void SetRageVolume()
+    {
+        float rageVolumeIntensity = currentComboLevel / (float)maxComboLevel;
+        
+        if(volumeCoroutine != null)
+        {
+            StopCoroutine(volumeCoroutine);
+        }
+
+        volumeCoroutine = StartCoroutine(IncreaseIntensity(rageVolumeIntensity));
+    }
+
+
+    private IEnumerator IncreaseIntensity(float targetIntensity)
+    {
+        float elapsedTime = 0f;
+        float volumeIntenisty = 3f;
+        
+        while (elapsedTime < volumeIntenisty)
+        {
+            elapsedTime += Time.deltaTime;
+
+            float t = elapsedTime / volumeIntenisty; // Zamana bağlı bir interpolasyon faktörü
+            float newIntensity;
+            newIntensity = Mathf.Lerp(rageVolume.weight, targetIntensity, t);
+            rageVolume.weight = newIntensity;
+
+            yield return null; // Bir sonraki kareyi bekle
+        }
+
+        rageVolume.weight = targetIntensity;
     }
 
 

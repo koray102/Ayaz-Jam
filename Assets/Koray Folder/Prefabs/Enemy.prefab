@@ -407,8 +407,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   point: 10
-  moveSpeed: 7
-  chasingMaxSpeed: 2
+  moveSpeed: 10
+  maxSpeed: 1.2
+  dragForce: 2
   destroyDuration: 0
   maxChaseDistance: 30
   reachToTreeDistance: 1

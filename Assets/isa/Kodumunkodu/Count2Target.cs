@@ -7,7 +7,6 @@ public class Count2Target : MonoBehaviour
 {
     public float countDuration = 1f; // Duration for the count
     public float shakeMagnitude = 10f; // Magnitude of the visual shake
-    public float puan; // Amount to add
     public TMP_Text skor; // Reference to the score text
 
     private float currentValue = 0f, targetValue = 0f;
@@ -21,10 +20,6 @@ public class Count2Target : MonoBehaviour
         originalPosition = skor.rectTransform.localPosition;
     }
 
-    private void Update()
-    {
-        AddValue(puan);
-    }
 
     IEnumerator CountTo(float targetValue)
     {
@@ -53,17 +48,16 @@ public class Count2Target : MonoBehaviour
         skor.text = ((int)currentValue).ToString();
     }
 
+
     public void AddValue(float value)
     {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            targetValue += puan;
+        targetValue += value;
 
-            if (_C2T != null)
-                StopCoroutine(_C2T);
+        if (_C2T != null)
+            StopCoroutine(_C2T);
 
-            _C2T = StartCoroutine(CountTo(targetValue));
-        }
+        _C2T = StartCoroutine(CountTo(targetValue));
+        
     }
 
     public void SetTarget(float target)
