@@ -46,6 +46,7 @@ public class PlayerMovementPhysics : MonoBehaviour
 
     [Header("VFX")]
     [SerializeField] private ParticleSystem windVFX;
+    [SerializeField] private ParticleSystem shockVFX;
     [SerializeField] private float windMinVelo;
 
 
@@ -551,6 +552,7 @@ public class PlayerMovementPhysics : MonoBehaviour
 
     private void PowerLanding()
     {
+        shockVFX.Play();
         float velocity = playerRb.velocity.magnitude;
 
         if(isGrabbing && velocity > minSpeedToLand)
