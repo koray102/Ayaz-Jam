@@ -3,7 +3,17 @@ guid: 9b2b650eae37c0f49bffb54c8200ab93
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "LambaAh\u015Fap"
+    second: {fileID: 2100000, guid: ed77fae21a45b1c4bb9fb38a196ec372, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: LambaMetal
+    second: {fileID: 2100000, guid: 03e69bec3c093fb4d8ef04f9b1c0236d, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
