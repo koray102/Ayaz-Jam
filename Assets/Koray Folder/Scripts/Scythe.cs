@@ -21,7 +21,7 @@ public class Scythe : MonoBehaviour
     [SerializeField] private int comboUpTreshold;
     [SerializeField] private List<float> comboFactors = new List<float>{1f, 2f, 4f, 10f, 20f};
     [SerializeField] private int maxComboLevel;
-    [SerializeField] private UIManager UIManagerSc;
+    [SerializeField] private Cooldown cooldownScS;
     [SerializeField] private FPSCameraScript fpsCameraScriptSc;
     [SerializeField] private Volume rageVolume;
     private Coroutine volumeCoroutine;
@@ -49,7 +49,7 @@ public class Scythe : MonoBehaviour
             RotateObject();
         }
 
-        UIManagerSc.comboLevel = currentComboLevel;
+        //UIManagerSc.comboLevel = currentComboLevel;
     }
 
 
@@ -142,11 +142,11 @@ public class Scythe : MonoBehaviour
         while(time > 0)
         {
             time -= Time.deltaTime;
-            UIManagerSc.zombieCoolDown = time;
+           // UIManagerSc.zombieCoolDown = time;
 
             yield return null;
         }
-        UIManagerSc.zombieCoolDown = 0;
+      //  UIManagerSc.zombieCoolDown = 0;
 
         killedZombies = 0;
     }
@@ -159,11 +159,11 @@ public class Scythe : MonoBehaviour
         while(time > 0)
         {
             time -= Time.deltaTime;
-            UIManagerSc.comboCoolDown = time;
+          //  UIManagerSc.comboCoolDown = time;
 
             yield return null;
         }
-        UIManagerSc.comboCoolDown = 0;
+       // UIManagerSc.comboCoolDown = 0;
 
         if(currentComboLevel != 0)
         {
