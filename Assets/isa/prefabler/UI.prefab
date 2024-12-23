@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 161992330}
   - component: {fileID: 161992329}
   m_Layer: 5
-  m_Name: RawImage
+  m_Name: Cross
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 1159564620}
   - component: {fileID: 1159564619}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Kombo LVL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -107,10 +107,10 @@ RectTransform:
   m_Father: {fileID: 2792145863972824959}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.6002704}
-  m_AnchorMax: {x: 0.179, y: 0.86489195}
-  m_AnchoredPosition: {x: 0.3704834, y: 1.5}
-  m_SizeDelta: {x: -0.7409992, y: 3.4090996}
+  m_AnchorMin: {x: 0.008333333, y: 0.6805555}
+  m_AnchorMax: {x: 0.1245625, y: 0.8807037}
+  m_AnchoredPosition: {x: 1.7963867, y: 2.7996826}
+  m_SizeDelta: {x: -3.5929, y: 7.0061}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1159564621
 CanvasRenderer:
@@ -140,7 +140,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: D
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5778bcec8a8ebdb40a0c50f007d4f2cb, type: 2}
   m_sharedMaterial: {fileID: -8875143365454869782, guid: 5778bcec8a8ebdb40a0c50f007d4f2cb,
@@ -168,14 +168,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 91.83
-  m_fontSizeBase: 91.83
+  m_fontSize: 250
+  m_fontSizeBase: 250
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -204,7 +204,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 2.894226, z: 0.53822327, w: -1.3161011}
+  m_margin: {x: 0, y: 2.894226, z: 1.8756104, w: -1.3161011}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1327,9 +1327,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6f63081441d3d945abe71727cbf3ef5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  countDuration: 1
+  countDuration: 0.6
   shakeMagnitude: 10
   skor: {fileID: 2792145864775902959}
+  skorDed: {fileID: 0}
 --- !u!114 &2792145863972824954
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -5,13 +5,11 @@ using UnityEngine;
 public class FPSCameraScript : MonoBehaviour
 {
     [SerializeField] private PlayerMovementPhysics playerMovementPhysicsSc;
-    [SerializeField] private menuscript menuSc;
     private float shakeMagModified;
     private Vector3 originalPosition; // Kameranın orijinal pozisyonu
     public float sensitivity = 150f;
     public Transform playerTransform;
     private float xRotation;
-    private float yRotation;
     private float mouseX;
     private float mouseY;
 
@@ -19,6 +17,9 @@ public class FPSCameraScript : MonoBehaviour
     void Start()
     {
         // Keep the cursor at the middle of the screen and make is invisible.
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
         originalPosition = transform.localPosition;
     }
 

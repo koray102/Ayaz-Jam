@@ -7,18 +7,27 @@ using UnityEngine.Audio;
 public class menuscript : MonoBehaviour
 {
     public AudioMixer audioMixer;
-
     public bool GameisPaused = false;
     public GameObject pauseMenuUI;
+    private GameObject player;
+    private PlayerMovementPhysics playerMovementPhysicsSc;
 
 
     private void Start()
     {
-        LockCursor();
+        //LockCursor();
+        player = GameObject.FindGameObjectWithTag("Player");
+
+        if (player != null)
+        {
+            playerMovementPhysicsSc = player.GetComponent<PlayerMovementPhysics>();
+        }
     }
+
+
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && playerMovementPhysicsSc != null && !playerMovementPhysicsSc.isDead)
         {
             if (GameisPaused)
             {
@@ -30,6 +39,7 @@ public class menuscript : MonoBehaviour
             }
         }
     }
+
 
     public void Resume()
     {

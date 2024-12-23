@@ -21,9 +21,9 @@ public class PlayerMovementPhysics : MonoBehaviour
     [SerializeField] private float maxFrictionSpeed;
     [SerializeField] private float frictionFactor;
     [SerializeField] private float dragForce;
+    [SerializeField] private float airMovementFactor = 0.5f;
+    [SerializeField] private float grabAirMovementFactor = 0.2f;
     public Transform groundCheckTransform;
-    public float radiusOfSphere = 0.3f;
-    public LayerMask groundMask;
 
 
     [Header("Grab")]
@@ -35,6 +35,8 @@ public class PlayerMovementPhysics : MonoBehaviour
     [SerializeField] private GameObject hand;
     [SerializeField] private Transform handStartPos;
     [SerializeField] private Cooldown cooldownSc;
+    [SerializeField] private float grabMaxSpeed;
+    [SerializeField] private float grabDragForce;
     private float grabCoolDown;
     private bool canGrab = true;
     private Coroutine grabCoroutine;
@@ -60,9 +62,9 @@ public class PlayerMovementPhysics : MonoBehaviour
     [SerializeField] private List<float> grabCoolDownList = new List<float>{5f, 3f, 0f};
     [SerializeField] private List<float> scytheAttackDuration = new List<float>{1f, 0.7f, 0f};
     [SerializeField] private List<float> maxVeloList = new List<float>{4f, 7f, 13f};
+    [SerializeField] private List<float> maxGrabVeloList = new List<float>{25f, 35f, 50f};
     [SerializeField] private List<GameObject> hearthUI = new List<GameObject>();
     [SerializeField] private GameObject dedCanva;
-    [SerializeField] private menuscript menuSc;
     private int health = 3;
     private bool canLoseHealth = true;
     internal bool isDead;
@@ -93,6 +95,8 @@ public class PlayerMovementPhysics : MonoBehaviour
     private float vertical;
     internal bool isGrounded;
     private Vector3 downDir;
+    private enum State { Walk, Run, Jump, Grab };
+    private State currentState = State.Walk;
 
 
     void Start()
@@ -114,16 +118,18 @@ public class PlayerMovementPhysics : MonoBehaviour
         vertical = Input.GetAxisRaw("Vertical");
         grapInput = Input.GetKeyDown(KeyCode.E);
 
+        SetState();
+
         downDir = transform.up * -1;
 
-        //isGrounded = Physics.CheckSphere(groundCheckTransform.position, radiusOfSphere, groundMask);
+        float movementFactor = (currentState == State.Grab) ? grabAirMovementFactor : airMovementFactor;
       
         if(Input.GetKey(KeyCode.LeftShift))
         {
-            speed = isGrounded ? runSpeed : runSpeed / 2;
+            speed = isGrounded ? runSpeed : runSpeed * movementFactor;
         }else
         {
-            speed = isGrounded ? speedInput : speedInput / 2;
+            speed = isGrounded ? speedInput : speedInput * movementFactor;
         }
         
         if(Input.GetKeyDown("space") && isGrounded)
@@ -205,6 +211,15 @@ public class PlayerMovementPhysics : MonoBehaviour
 
         RawPhysicalMovement();
 
+        
+        if(currentState != State.Grab)
+        {
+            LimitVelocityPhysically(maxSpeed, dragForce);
+        }else
+        {
+            LimitVelocityPhysically(grabMaxSpeed, grabDragForce);
+        }
+
         Jump();
 
         if(isGrabbing)
@@ -245,29 +260,29 @@ public class PlayerMovementPhysics : MonoBehaviour
 
         if(totalMove.magnitude > 0)
         {
-            playerRb.AddForce(totalMove.normalized * speed);
-        }else if(!isGrabbing && isGrounded)
+            //playerRb.AddForce(totalMove.normalized * speed);
+        }else if(!isGrabbing && isGrounded) // Oyuncu wasd'yi birakinca durmasi icin
         {
             ApplyFriction();
         }
 
         playerRb.AddForce(totalMove.normalized * speed, ForceMode.VelocityChange);
-
-        LimitVelocityPhysically();
     }
 
 
-    private void LimitVelocityPhysically()
+    private void LimitVelocityPhysically(float maxSpeed, float dragForce)
     {
         // Get the player's current velocity
         Vector3 velocity = playerRb.velocity;
 
         // Check if the horizontal speed exceeds the max speed
         Vector3 horizontalVelocity = new Vector3(velocity.x, 0f, velocity.z);
-        if (horizontalVelocity.magnitude > maxSpeed)
+        Vector3 velocityDirection = (currentState == State.Grab) ? velocity : horizontalVelocity;
+
+        if (velocity.magnitude > maxSpeed)
         {
             // Apply a counter force proportional to the excess speed
-            Vector3 excessVelocity = horizontalVelocity.normalized * (horizontalVelocity.magnitude - maxSpeed);
+            Vector3 excessVelocity = velocityDirection.normalized * (horizontalVelocity.magnitude - maxSpeed);
             playerRb.AddForce(-excessVelocity * dragForce, ForceMode.Acceleration);
         }
     }
@@ -534,6 +549,8 @@ public class PlayerMovementPhysics : MonoBehaviour
             }else
             {
                 Time.timeScale = 0f;
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
                 dedCanva.SetActive(true);
             }
         }
@@ -552,13 +569,14 @@ public class PlayerMovementPhysics : MonoBehaviour
 
     private void PowerLanding()
     {
-        shockVFX.Play();
         float velocity = playerRb.velocity.magnitude;
 
         if(isGrabbing && velocity > minSpeedToLand)
         {
-            Collider[] colliders = Physics.OverlapSphere(transform.position, damageRange, enemyLayer);
+            shockVFX.Play();
             StartCoroutine(fpsCameraScriptSc.Shake(landShakeDuration, landShakeMagnitude));
+
+            Collider[] colliders = Physics.OverlapSphere(transform.position, damageRange, enemyLayer);
 
             // Bulunan Collider'ların GameObject'lerini listeye ekle
             foreach (Collider collider in colliders)
@@ -576,7 +594,32 @@ public class PlayerMovementPhysics : MonoBehaviour
     {
         // sondan basladigi icin 3ten cikar
         maxSpeed = maxVeloList[3 - health];
+        grabMaxSpeed = maxGrabVeloList[3 - health];
         grabCoolDown = grabCoolDownList[3 - health];
         scytheSc.duration = scytheAttackDuration[3 - health];
+    }
+
+
+    private void SetState()
+    {
+        if(!isGrounded) // HAVADA
+        {
+            if(isGrabbing)
+            {
+                currentState = State.Grab;
+            }
+        }else
+        {
+            if(Input.GetKeyDown(KeyCode.Space) && isGrounded)
+            {
+                currentState = State.Jump;
+            }else if(Input.GetKey(KeyCode.LeftShift))
+            {
+                currentState = State.Run;
+            }else
+            {
+                currentState = State.Walk;
+            }
+        }
     }
 }

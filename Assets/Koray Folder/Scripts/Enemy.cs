@@ -187,7 +187,7 @@ public class Enemy : MonoBehaviour
 
         if (collision.gameObject.CompareTag("LifeTree"))
         {
-            collision.gameObject.GetComponent<LifeTree>().decreaseLife(10);
+            collision.gameObject.GetComponent<LifeTree>().DecreaseLife(10);
             Destroy(gameObject);
         }
     }

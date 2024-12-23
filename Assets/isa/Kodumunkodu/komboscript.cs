@@ -11,7 +11,6 @@ public class komboscript : MonoBehaviour
     public Vector2 spawnOffsetRange = new Vector2(100f, 100f); // Rastgele ba�lang�� pozisyonu aral���
 
     private string[] comboLevels = { "D", "C", "B", "A", "S" }; // Kombo seviyeleri
-    private int currentComboIndex = 0; // �u anki seviye indeksi
     private Vector3 originalPosition;
 
     private void Awake()

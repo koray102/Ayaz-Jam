@@ -41,7 +41,7 @@ public class Scythe : MonoBehaviour
 
     void Start()
     {
-        komboSC.UpdateComboDisplay(currentComboLevel);
+        
     }
 
     // Update is called once per frame
@@ -99,7 +99,7 @@ public class Scythe : MonoBehaviour
     private void RotateObject()
     {
         rotationDone = false;
-
+    
         scythe.transform.DOLocalRotate(Vector3.right * 360f, duration, RotateMode.LocalAxisAdd)
             .SetEase(Ease.OutCubic) // Linear motion for consistent speed
             .SetLoops(loopRotation ? -1 : 1, LoopType.Restart)
