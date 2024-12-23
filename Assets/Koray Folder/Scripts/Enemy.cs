@@ -16,6 +16,9 @@ public class Enemy : MonoBehaviour
     [SerializeField] private bool isHunter;
     [SerializeField] private float dashCoolDown = 2f;
     [SerializeField] private GameObject dieSFX;
+
+    public OlumAnimator olumAnimator;
+
     private bool canDash = true;
     private bool isTargetPlayer;
     //[SerializeField] private MultiShaderParameterAnimator dissolveSc;
@@ -27,6 +30,8 @@ public class Enemy : MonoBehaviour
     private Vector3 targetPosition;
     private float currentPoint;
     private Vector3 direction;
+
+    
 
 
 

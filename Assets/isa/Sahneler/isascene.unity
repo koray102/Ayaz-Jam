@@ -2763,6 +2763,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1166220061, guid: 1a9036559d5428b4db1772b2969e1b22, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1500453061, guid: 1a9036559d5428b4db1772b2969e1b22, type: 3}
       propertyPath: komboSC
       value: 
@@ -2775,6 +2779,16 @@ PrefabInstance:
       propertyPath: rageVolume
       value: 
       objectReference: {fileID: 2055771767}
+    - target: {fileID: 4850777542557900203, guid: 1a9036559d5428b4db1772b2969e1b22,
+        type: 3}
+      propertyPath: ShapeModule.m_MeshRenderer
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5417546029751304499, guid: 1a9036559d5428b4db1772b2969e1b22,
+        type: 3}
+      propertyPath: ShapeModule.m_MeshRenderer
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7899392678022400368, guid: 1a9036559d5428b4db1772b2969e1b22,
         type: 3}
       propertyPath: m_RootOrder
@@ -2864,6 +2878,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 9127679437793682400, guid: 1a9036559d5428b4db1772b2969e1b22,
+        type: 3}
+      propertyPath: ShapeModule.m_MeshRenderer
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a9036559d5428b4db1772b2969e1b22, type: 3}
