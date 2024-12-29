@@ -112,7 +112,7 @@ Material:
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 2
-    - _Cutoff: 0.5
+    - _Cutoff: 5
     - _Cutoff_Height: 0.1
     - _Depth_Sensitivity: 0.41
     - _DetailAlbedoMapScale: 1
@@ -122,12 +122,13 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _Glow_Thickness: 2.77
+    - _Glow_Thickness: 2.38
     - _Metallic: 0
     - _Mode: 0
     - _Noise_Scale: 200
     - _Noise_Strenght: 3.65
     - _Normals_Sensitivity: 1
+    - _OLUM: 0
     - _OcclusionStrength: 1
     - _Outline_Thickness: 2
     - _Parallax: 0.005

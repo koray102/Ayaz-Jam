@@ -118,7 +118,7 @@ MonoBehaviour:
   moveSpeed: 10
   maxSpeed: 0.8
   dragForce: 10
-  destroyDuration: 0
+  destroyDuration: 2
   maxChaseDistance: 20
   reachToTreeDistance: 1
   tree: {fileID: 0}
@@ -126,6 +126,7 @@ MonoBehaviour:
   isHunter: 1
   dashCoolDown: 3.5
   dieSFX: {fileID: 467289443725786470, guid: 4131479825f8d244cb1f6e19b690acbc, type: 3}
+  olumAnimator: {fileID: 4819395530353115239}
 --- !u!54 &4842085205634071346
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -344,7 +345,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4499343634479934498}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4499343634479934497
+--- !u!114 &2350233540586943615
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -353,17 +354,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 7866990566163676872}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a35353c7ba678d24282fb3ebde5d4ad2, type: 3}
+  m_Script: {fileID: 11500000, guid: af42d60f90e9d5243995c270a1c986ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetMaterial: {fileID: 2100000, guid: df0b47269d9676f47891d552eca38ec8, type: 2}
-  olumParameter: OLUM
-  cutoffHeightParameter: Cutoff Height
-  olumStartValue: 0
-  olumEndValue: 1
-  cutoffStartValue: 0.23
-  cutoffEndValue: 4.5
-  duration: 1
+--- !u!114 &4819395530353115239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7866990566163676872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0c672edb741c6f4f8d83c9bfd2e43eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &7866990567613436398 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6007180743642840524, guid: 5a796ed211b2cec468ecadad11acb207,

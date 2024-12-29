@@ -43,7 +43,7 @@ public class Enemy : MonoBehaviour
         
         tree = GameObject.Find("LifeTree");
         uIManagerSc = GameObject.FindGameObjectWithTag("UIManager").GetComponent<Count2Target>();
-
+        
     }
 
 
@@ -138,6 +138,10 @@ public class Enemy : MonoBehaviour
 
         //animasyon vfx falan oynatılacak
         //StartCoroutine(dissolveSc.DieDissolve());
+        olumAnimator.AnimateCutoffAndOLUM(0f, 5f, 0, 1, destroyDuration);
+
+        
+        
 
         Destroy(gameObject, destroyDuration);
        
@@ -191,5 +195,4 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
 }

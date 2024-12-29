@@ -10,7 +10,7 @@ public class CutoffAnimator : MonoBehaviour
         // Objeye atanmýþ materyali al
         material = GetComponent<Renderer>().material;
 
-        AnimateCutoff(3.5f,0.5f,3f);
+        AnimateCutoff(5f,0f,3f);
     }
 
     public void AnimateCutoff(float startValue, float endValue, float duration)

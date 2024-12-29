@@ -13,10 +13,9 @@ public class OlumAnimator : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.S))
-        {
-            AnimateCutoffAndOLUM(0.5f, 3.5f, 0, 1, 1f);
-        }
+
+        //AnimateCutoffAndOLUM(0f, 5f, 0, 1, 2f);
+
     }
     public void AnimateCutoffAndOLUM(float cutoffStart, float cutoffEnd, float olumStart, float olumEnd, float duration)
     {

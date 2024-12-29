@@ -17,9 +17,9 @@ MonoBehaviour:
   categories: []
   uiBounds:
     serializedVersion: 2
-    x: 658
+    x: 685
     y: -221
-    width: 2996
+    width: 2969
     height: 2289
 --- !u!114 &114350483966674976
 MonoBehaviour:
@@ -852,6 +852,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 081ffb0090424ba4cb05370a42ead6b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_UIIgnoredErrors: []
+  m_Parent: {fileID: 0}
+  m_Children: []
+  m_UIPosition: {x: 0, y: 0}
+  m_UICollapsed: 1
+  m_UISuperCollapsed: 0
+  opaqueRenderQueue: 0
+  transparentRenderQueue: 1
 --- !u!114 &8926484042661614591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3101,7 +3109,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEditor.VFX.AABox, Unity.VisualEffectGraph.Editor,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"center":{"x":0.0,"y":0.5199999809265137,"z":0.27000001072883608},"size":{"x":0.15000000596046449,"y":0.009999999776482582,"z":0.47999998927116396}}'
+      m_SerializableObject: '{"center":{"x":-0.06981059163808823,"y":0.11317042261362076,"z":0.8424155712127686},"size":{"x":0.2115830034017563,"y":6.666604690508393e-8,"z":0.16575586795806886}}'
     m_Space: 0
   m_Property:
     name: Box
@@ -5928,7 +5936,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEditor.VFX.Vector, Unity.VisualEffectGraph.Editor,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"vector":{"x":-0.5,"y":-0.5,"z":0.75}}'
+      m_SerializableObject: '{"vector":{"x":0.5,"y":0.5,"z":-0.75}}'
     m_Space: 0
   m_Property:
     name: A
@@ -6098,7 +6106,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEditor.VFX.Vector, Unity.VisualEffectGraph.Editor,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"vector":{"x":0.5,"y":-0.5,"z":1.5}}'
+      m_SerializableObject: '{"vector":{"x":-0.5,"y":0.5,"z":-1.5}}'
     m_Space: 0
   m_Property:
     name: B

@@ -118,7 +118,7 @@ MonoBehaviour:
   moveSpeed: 10
   maxSpeed: 0.8
   dragForce: 10
-  destroyDuration: 0
+  destroyDuration: 2
   maxChaseDistance: 30
   reachToTreeDistance: 1
   tree: {fileID: 0}
@@ -126,6 +126,7 @@ MonoBehaviour:
   isHunter: 0
   dashCoolDown: 2
   dieSFX: {fileID: 467289443725786470, guid: 4131479825f8d244cb1f6e19b690acbc, type: 3}
+  olumAnimator: {fileID: 7105287932441877596}
 --- !u!54 &5442721727448105862
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -344,3 +345,33 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 5442721729167074007}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8040215296191009369 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2602231374717726862, guid: 855c90c429434444fbe3ca2b5507ab04,
+    type: 3}
+  m_PrefabInstance: {fileID: 5442721729167074007}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7105287932441877596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8040215296191009369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0c672edb741c6f4f8d83c9bfd2e43eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8031999055060303370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8040215296191009369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af42d60f90e9d5243995c270a1c986ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
